@@ -1,0 +1,1 @@
+Practice for MERN Project with graphql
