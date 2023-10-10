@@ -52,8 +52,8 @@ const generateToken = (user: UserInterface) => {
       email: user.email,
       username: user.username,
     },
-    process.env.SECRET_KEY as string,
-    { expiresIn: '1h' }
+    process.env.SECRET_TOKEN as string,
+    { expiresIn: '24h' }
   );
 };
 

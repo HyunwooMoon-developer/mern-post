@@ -6,6 +6,10 @@ import Comment_Type from './Comment/Comment_Type';
 const misc_Schema = gql`
   scalar Date
   scalar DateTime
+
+  type SuccessResult {
+    success: Boolean
+  }
 `;
 
 const typeDefs = [misc_Schema, Post_Type, User_Type, Comment_Type];

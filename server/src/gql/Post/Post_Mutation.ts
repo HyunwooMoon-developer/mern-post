@@ -7,9 +7,13 @@ const Post_Mutation = {
   Mutation: {
     createPost: async (_: any, args: { body: string }, context: any) => {
       const user = checkAuth(context);
-
       if (args.body.trim() === '') {
-        throw new Error('Post body must not be empty');
+        throw new GraphQLError(`Post body must not be empty`, {
+          extensions: {
+            code: ApolloServerErrorCode.BAD_USER_INPUT,
+            argumentName: 'body',
+          },
+        });
       }
 
       const newPost = new Post({
@@ -19,10 +23,6 @@ const Post_Mutation = {
       });
 
       const post = await newPost.save();
-
-      context.pubsub.publish('NEW_POST', {
-        newPost: post,
-      });
 
       return post;
     },

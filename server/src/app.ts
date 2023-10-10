@@ -8,15 +8,12 @@ import { ApolloServerPluginDrainHttpServer } from '@apollo/server/plugin/drainHt
 import { ApolloServerPluginLandingPageDisabled } from '@apollo/server/plugin/disabled';
 import { ApolloServerPluginLandingPageLocalDefault } from '@apollo/server/plugin/landingPage/default';
 import { makeExecutableSchema } from '@graphql-tools/schema';
-import { PubSub } from 'graphql-subscriptions';
 import { expressMiddleware } from '@apollo/server/express4';
 import { WebSocketServer } from 'ws';
 import { useServer } from 'graphql-ws/lib/use/ws';
 import connectDB from './utils/connectDB';
 import typeDefs from './gql/typeDefs';
 import resolvers from './gql/resolvers';
-
-const pubsub = new PubSub();
 
 dotenv.config();
 
@@ -62,7 +59,7 @@ const startApolloServer = async () => {
     cors<cors.CorsRequest>(),
     bodyParser.json(),
     expressMiddleware(server, {
-      context: async ({ req }) => await { req, pubsub },
+      context: async ({ req }) => await { req },
     })
   );
 

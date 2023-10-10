@@ -40,13 +40,15 @@ const User_Mutation = {
       const token = generateToken(user);
 
       return {
-        ...user,
         id: user._id,
+        username: user.username,
+        email: user.email,
         token,
       };
     },
     register: async (_: any, args: { input: { [key: string]: string } }) => {
       let { username, email, password, confirmPassword } = args.input;
+
       const errors = validateRgisterInput(
         username,
         email,
@@ -64,7 +66,10 @@ const User_Mutation = {
 
       if (user) {
         throw new GraphQLError('Username is takne', {
-          extensions: { code: ApolloServerErrorCode.BAD_USER_INPUT },
+          extensions: {
+            code: ApolloServerErrorCode.BAD_USER_INPUT,
+            argumentName: 'username',
+          },
         });
       }
 
@@ -78,12 +83,8 @@ const User_Mutation = {
 
       const res = await newUser.save();
 
-      const token = generateToken(res);
-
       return {
-        ...res,
-        id: res._id,
-        token,
+        success: true,
       };
     },
   },

@@ -1,15 +1,16 @@
 import { GraphQLError } from 'graphql';
 import jwt from 'jsonwebtoken';
 
+/* const secretKey = fs.readFileSync(process.env.SECRET_TOKEN as string, 'utf-8'); */
 const checkAuth = (context: any) => {
   const authHeader = context.req.headers.authorization;
-
   if (authHeader) {
     const token = authHeader.split('Bearer ')[1];
 
     if (token) {
       try {
-        const user: any = jwt.verify(token, process.env.SECRET_KEY as string);
+        const user: any = jwt.verify(token, process.env.SECRET_TOKEN as string);
+
         return user;
       } catch (err) {
         throw new GraphQLError('Invalid/Expired Token', {

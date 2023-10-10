@@ -37,10 +37,6 @@ const Post_Type = gql`
     deleteComment(postID: ID!, commentID: ID!): Post!
     likePost(postID: ID!): Post!
   }
-
-  type Subscription {
-    newPost: Post!
-  }
 `;
 
 export default Post_Type;
